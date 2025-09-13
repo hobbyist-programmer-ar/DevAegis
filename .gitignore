@@ -1,0 +1,14 @@
+.pytest_cache/
+.tox/
+htmlcov/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*,cover
+
+__pycache__
+.env
+.env.*
+secrets.toml
+.DS_Store
