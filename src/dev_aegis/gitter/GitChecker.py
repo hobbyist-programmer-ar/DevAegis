@@ -1,6 +1,7 @@
-import subprocess
 import os
+import subprocess
 import sys
+
 
 class GitChecker:
     """
@@ -14,7 +15,7 @@ class GitChecker:
             sys.exit(1)
         self.project_root = os.getcwd()
         self.jira_ticket = jira_ticket
-        self.report_dir = os.path.join(self.project_root, ".developer-assistant")
+        self.report_dir = os.path.join(self.project_root, ".dev-aegis")
         self.report_file = os.path.join(self.report_dir, "git-warning-report.md")
         self._ensure_report_directory_exists()
         self.current_branch = self._run_git_command(['rev-parse', '--abbrev-ref', 'HEAD']).strip()
@@ -163,7 +164,7 @@ def main():
     The main function to run the interactive tool.
     """
     project_root = os.getcwd()
-    print(f"--- Developer Assistant ---")
+    print("--- Developer Assistant ---")
     print(f"--- Running in directory: {project_root} ---")
 
     git_checker = GitChecker()

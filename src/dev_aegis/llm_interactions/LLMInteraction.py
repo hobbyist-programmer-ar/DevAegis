@@ -1,6 +1,7 @@
-import requests
-import json
 import sys
+
+import requests
+
 
 class LLMInteraction:
     """

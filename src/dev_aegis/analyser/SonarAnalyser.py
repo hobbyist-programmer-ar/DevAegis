@@ -1,8 +1,9 @@
-import subprocess
 import os
+import subprocess
 import sys
-import xml.etree.ElementTree as ET
 import time
+import xml.etree.ElementTree as ET
+
 
 class SonarAnalyser:
     """
@@ -129,7 +130,7 @@ class SonarAnalyser:
         params = {'component': self.project_key, 'metricKeys': metric_keys}
         auth = (self.sonarqube_token, '') if self.sonarqube_token else None
 
-        print(f"INFO: Querying SonarQube API for bug counts...")
+        print("INFO: Querying SonarQube API for bug counts...")
         try:
             response = requests.get(api_url, params=params, auth=auth)
             response.raise_for_status()  # Raise an exception for HTTP errors (e.g., 401, 404, 500)
@@ -231,7 +232,7 @@ def main():
     The main function to orchestrate the automation tasks.
     """
     project_root = os.getcwd()
-    print(f"--- Developer Assistant: SonarQube Analysis ---")
+    print("--- Developer Assistant: SonarQube Analysis ---")
     print(f"--- Running in directory: {project_root} ---")
 
     # NOTE: It's assumed that 'mvn clean install' has been run prior to this script

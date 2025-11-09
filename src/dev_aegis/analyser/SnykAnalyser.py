@@ -1,7 +1,8 @@
-import subprocess
-import os
-import sys
 import json
+import os
+import subprocess
+import sys
+
 
 class SnykAnalyser:
     """
@@ -102,6 +103,7 @@ class SnykAnalyser:
                     severity = vuln.get('severity', 'N/A')
                     version = vuln.get('version', 'N/A')
                     fixed_in = ', '.join(vuln.get('fixedIn', [])) if vuln.get('fixedIn') else 'NA'
+                    introduced_through = '-> '.join(vuln.get('from', [])) if vuln.get('from') else 'NA'
                     url = vuln.get('url', '#')
                     exploit_maturity = vuln.get('exploit', 'Not Available')
 
@@ -110,6 +112,7 @@ class SnykAnalyser:
                         'severity': severity,
                         'version': version,
                         'fixed_in': fixed_in,
+                        'introduced_through' : introduced_through,
                         'url': url
                     })
 
@@ -147,7 +150,7 @@ class SnykAnalyser:
         if not vulnerabilities:
             report_content = "# Snyk Security Report\n\nCongratulations! No vulnerabilities were found."
         else:
-            headers = ["Package", "Severity", "Vulnerable Version", "Fixed in Version", "CVE Report Link"]
+            headers = ["Package", "Severity", "Vulnerable Version", "Fixed in Version", "Introduce Through", "CVE Report Link"]
             report_content = (
                 f"# Snyk Security Report\n\n"
                 f"Found {len(vulnerabilities)} vulnerabilities.\n\n"
@@ -156,7 +159,7 @@ class SnykAnalyser:
             )
             for vuln in vulnerabilities:
                 link = f"[{vuln['package']}]({vuln['url']})"
-                row = f"| {vuln['package']} | {vuln['severity'].title()} | {vuln['version']} | {vuln['fixed_in']} | [View Details]({vuln['url']}) |\n"
+                row = f"| {vuln['package']} | {vuln['severity'].title()} | {vuln['version']} | {vuln['fixed_in']} | {vuln['introduced_through']} | [View Details]({vuln['url']}) |\n"
                 report_content += row
 
         with open(self.report_file, 'w', encoding='utf-8') as f:
@@ -175,7 +178,7 @@ def main():
     The main function to orchestrate the automation tasks.
     """
     project_root = os.getcwd()
-    print(f"--- Developer Assistant: Snyk Security Analysis ---")
+    print("--- Developer Assistant: Snyk Security Analysis ---")
     print(f"--- Running in directory: {project_root} ---")
 
     analyser = SnykAnalyser()
